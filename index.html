@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMEN</title>
+</head>
+
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+        body {
+            margin: 0;
+            font-family: "Nunito", sans-serif;
+            color: darkblue;
+            background: azure;
+        }
+
+        .container {
+            margin: auto;
+            max-width: 650px;
+            padding: 3rem;
+            background: aliceblue;
+            border-radius: 1rem;
+            box-shadow: 0 0 25px black;
+            margin-top: 2rem;
+
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+        }
+
+        #resultado {
+            padding: 1rem;
+            background: aliceblue;
+            display: none;
+            margin-top: 2rem;
+        }
+
+        label {
+            font-size: 1.5rem;
+        }
+
+        input,
+        select,
+        button {
+            padding: 1rem;
+            border-radius: 0.8rem;
+            border: 1px solid gray;
+            font-size: 1.5rem;
+        }
+
+        button {
+            background: #89CFF0;
+            color: darkblue;
+            cursor: pointer;
+            font-size: 2rem;
+        }
+
+        button:hover {
+            background: #A4DDED;
+        }
+
+        #resultado {
+         padding: 1rem;
+        background: aliceblue;
+        display: none;
+        margin-top: 2rem;
+        border: 1px solid darkblue;
+         border-radius: 1rem;
+        }
+
+        #resultado h2 {
+        color: darkblue;
+        }
+
+        #resultado p {
+        font-size: 1.2rem;
+        }
+
+    </style>
+    <main class="container">
+        <h1>Cálculo del Índice de Masa Muscular</h1>
+        <form id="formulario-imc">
+            <label for="nombre">Tu Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="peso">Tu Peso en Kilos:</label>
+            <input type="number" id="peso" name="peso" min="10" max="300" required>
+
+            <label for="estatura">Tu Estatura en m:</label>
+            <input type="number" id="estatura" name="estatura" step="0.1" required>
+
+            <label for="sexo">Tu Sexo</label>
+            <select name="sexo" id="sexo" required>
+                <option value="">Seleccione</option>
+                <option value="Mujer">Mujer</option>
+                <option value="Hombre">Hombre</option>
+            </select>
+
+            <button type="submit">Calcular IMC</button>
+        </form>
+
+        <section id="resultado" aria-live="polite"></section>
+    </main>
+
+    <script>
+function calcularIMC(peso, estatura) {
+  return peso / (estatura * estatura); 
+}
+
+function obtenerClasificacion(imc) {
+  if (imc < 18.5) return "Bajo peso";
+  if (imc < 25) return "Normal";
+  if (imc < 30) return "Sobrepeso";
+  return "Obesidad";
+}
+
+function mostrarResultado(nombre, imc) {
+  const resultado = document.getElementById("resultado");
+  const imcRedondeado = Math.round(imc * 100) / 100; 
+  const clasificacion = obtenerClasificacion(imc);
+
+  resultado.innerHTML = `
+    <h2>Hola, ${nombre}.</h2>
+    <p>Tu IMC es <strong>${imcRedondeado}</strong></p>
+    <p>Clasificación: <strong>${clasificacion}</strong></p>
+  `;
+  resultado.style.display = "block"; 
+}
+
+document.getElementById("formulario-imc").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const nombre = document.getElementById("nombre").value;
+  const peso = document.getElementById("peso").value; 
+  const estatura = document.getElementById("estatura").value; 
+  const sexo = document.getElementById("sexo").value;
+
+  if (nombre === "" || peso === "" || estatura === "" || sexo === "") {
+    alert("Por favor completa todos los campos.");
+    return;
+  }
+
+  const imc = calcularIMC(peso, estatura); 
+  mostrarResultado(nombre, imc); 
+});
+
+</script>
+   
+
+
+
+
+</body>
+
+</html>
